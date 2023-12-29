@@ -1,5 +1,5 @@
 CREATE TABLE "users" (
-  "id" int PRIMARY KEY,
+  "id" bigserial PRIMARY KEY,
   "username" varchar UNIQUE NOT NULL,
   "password" varchar NOT NULL,
   "email" varchar UNIQUE NOT NULL,
@@ -7,13 +7,13 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "questions" (
-  "id" int PRIMARY KEY,
+  "id" bigserial PRIMARY KEY,
   "texto" text NOT NULL,
   "created_at" timestamp with time zone NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "answers" (
-  "id" int PRIMARY KEY,
+  "id" bigserial PRIMARY KEY,
   "user_id" int NOT NULL,
   "question_id" int NOT NULL,
   "texto" text NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE "answers" (
 );
 
 CREATE TABLE "sessions" (
-  "id" int PRIMARY KEY,
+  "id" bigserial PRIMARY KEY,
   "user_id" int NOT NULL,
   "current_question_id" int,
   "started_at" timestamp with time zone NOT NULL DEFAULT (now()),
@@ -30,7 +30,7 @@ CREATE TABLE "sessions" (
 );
 
 CREATE TABLE "session_progress" (
-  "id" int PRIMARY KEY,
+  "id" bigserial PRIMARY KEY,
   "session_id" int NOT NULL,
   "question_id" int NOT NULL,
   "is_answered" boolean NOT NULL DEFAULT false,

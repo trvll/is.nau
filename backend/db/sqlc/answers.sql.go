@@ -52,7 +52,7 @@ DELETE FROM answers
 WHERE id = $1
 `
 
-func (q *Queries) DeleteAnswer(ctx context.Context, id int32) error {
+func (q *Queries) DeleteAnswer(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteAnswer, id)
 	return err
 }
@@ -62,7 +62,7 @@ SELECT id, user_id, question_id, texto, session_id, created_at FROM answers
 WHERE id = $1
 `
 
-func (q *Queries) GetAnswer(ctx context.Context, id int32) (Answers, error) {
+func (q *Queries) GetAnswer(ctx context.Context, id int64) (Answers, error) {
 	row := q.db.QueryRowContext(ctx, getAnswer, id)
 	var i Answers
 	err := row.Scan(
@@ -126,7 +126,7 @@ RETURNING id, user_id, question_id, texto, session_id, created_at
 `
 
 type UpdateAnswerParams struct {
-	ID    int32  `json:"id"`
+	ID    int64  `json:"id"`
 	Texto string `json:"texto"`
 }
 

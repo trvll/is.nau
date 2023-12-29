@@ -53,7 +53,7 @@ DELETE FROM session_progress
 WHERE id = $1
 `
 
-func (q *Queries) DeleteSessionProgress(ctx context.Context, id int32) error {
+func (q *Queries) DeleteSessionProgress(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteSessionProgress, id)
 	return err
 }
@@ -63,7 +63,7 @@ SELECT id, session_id, question_id, is_answered, answered_at FROM session_progre
 WHERE id = $1
 `
 
-func (q *Queries) GetSessionProgress(ctx context.Context, id int32) (SessionProgress, error) {
+func (q *Queries) GetSessionProgress(ctx context.Context, id int64) (SessionProgress, error) {
 	row := q.db.QueryRowContext(ctx, getSessionProgress, id)
 	var i SessionProgress
 	err := row.Scan(
@@ -125,7 +125,7 @@ RETURNING id, session_id, question_id, is_answered, answered_at
 `
 
 type UpdateSessionProgressParams struct {
-	ID         int32        `json:"id"`
+	ID         int64        `json:"id"`
 	IsAnswered bool         `json:"is_answered"`
 	AnsweredAt sql.NullTime `json:"answered_at"`
 }

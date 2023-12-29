@@ -10,7 +10,7 @@ import (
 )
 
 type Answers struct {
-	ID         int32     `json:"id"`
+	ID         int64     `json:"id"`
 	UserID     int32     `json:"user_id"`
 	QuestionID int32     `json:"question_id"`
 	Texto      string    `json:"texto"`
@@ -19,13 +19,13 @@ type Answers struct {
 }
 
 type Questions struct {
-	ID        int32     `json:"id"`
+	ID        int64     `json:"id"`
 	Texto     string    `json:"texto"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 type SessionProgress struct {
-	ID         int32        `json:"id"`
+	ID         int64        `json:"id"`
 	SessionID  int32        `json:"session_id"`
 	QuestionID int32        `json:"question_id"`
 	IsAnswered bool         `json:"is_answered"`
@@ -33,7 +33,7 @@ type SessionProgress struct {
 }
 
 type Sessions struct {
-	ID                int32         `json:"id"`
+	ID                int64         `json:"id"`
 	UserID            int32         `json:"user_id"`
 	CurrentQuestionID sql.NullInt32 `json:"current_question_id"`
 	StartedAt         time.Time     `json:"started_at"`
@@ -41,7 +41,7 @@ type Sessions struct {
 }
 
 type Users struct {
-	ID        int32     `json:"id"`
+	ID        int64     `json:"id"`
 	Username  string    `json:"username"`
 	Password  string    `json:"password"`
 	Email     string    `json:"email"`

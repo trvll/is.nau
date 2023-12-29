@@ -44,7 +44,7 @@ DELETE FROM sessions
 WHERE id = $1
 `
 
-func (q *Queries) DeleteSession(ctx context.Context, id int32) error {
+func (q *Queries) DeleteSession(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteSession, id)
 	return err
 }
@@ -54,7 +54,7 @@ SELECT id, user_id, current_question_id, started_at, completed_at FROM sessions
 WHERE id = $1
 `
 
-func (q *Queries) GetSession(ctx context.Context, id int32) (Sessions, error) {
+func (q *Queries) GetSession(ctx context.Context, id int64) (Sessions, error) {
 	row := q.db.QueryRowContext(ctx, getSession, id)
 	var i Sessions
 	err := row.Scan(
@@ -116,7 +116,7 @@ RETURNING id, user_id, current_question_id, started_at, completed_at
 `
 
 type UpdateSessionParams struct {
-	ID                int32         `json:"id"`
+	ID                int64         `json:"id"`
 	CurrentQuestionID sql.NullInt32 `json:"current_question_id"`
 }
 

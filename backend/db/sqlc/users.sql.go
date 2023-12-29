@@ -44,7 +44,7 @@ DELETE FROM users
 WHERE  id =  $1
 `
 
-func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
+func (q *Queries) DeleteUser(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteUser, id)
 	return err
 }
@@ -54,7 +54,7 @@ SELECT id, username, password, email, created_at FROM users
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetUser(ctx context.Context, id int32) (Users, error) {
+func (q *Queries) GetUser(ctx context.Context, id int64) (Users, error) {
 	row := q.db.QueryRowContext(ctx, getUser, id)
 	var i Users
 	err := row.Scan(
@@ -116,7 +116,7 @@ RETURNING id, username, password, email, created_at
 `
 
 type UpdateUserParams struct {
-	ID       int32  `json:"id"`
+	ID       int64  `json:"id"`
 	Password string `json:"password"`
 }
 
