@@ -5,8 +5,8 @@ POSTGRES_PASSWORD=pass
 POSTGRES_DB=is.nau
 PORT=5432
 
-.PHONY: start-db
-start-db:
+.PHONY: startdb
+startdb:
 	docker run --name $(CONTAINER_NAME) \
 		-e POSTGRES_USER=$(POSTGRES_USER) \
 		-e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) \
@@ -14,8 +14,8 @@ start-db:
 		-p $(PORT):5432 \
 		-d postgres:$(POSTGRES_VERSION)
 
-.PHONY: stop-db
-stop-db:
+.PHONY: stopdb
+stopdb:
 	docker stop $(CONTAINER_NAME)
 	docker rm $(CONTAINER_NAME)
 
@@ -23,7 +23,7 @@ stop-db:
 migrateup:
 	migrate -path backend/db/migration -database "postgresql://postgres:pass@localhost:5432/is.nau?sslmode=disable" -verbose up
 
-.PHONY: migratdown
+.PHONY: migratedown
 migratedown:
 	migrate -path backend/db/migration -database "postgresql://postgres:pass@localhost:5432/is.nau?sslmode=disable" -verbose down
 
