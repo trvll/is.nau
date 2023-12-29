@@ -48,7 +48,8 @@ func (q *Queries) CreateAnswer(ctx context.Context, arg CreateAnswerParams) (Ans
 }
 
 const deleteAnswer = `-- name: DeleteAnswer :exec
-DELETE FROM answers WHERE id = $1
+DELETE FROM answers
+WHERE id = $1
 `
 
 func (q *Queries) DeleteAnswer(ctx context.Context, id int32) error {
@@ -57,7 +58,8 @@ func (q *Queries) DeleteAnswer(ctx context.Context, id int32) error {
 }
 
 const getAnswer = `-- name: GetAnswer :one
-SELECT id, user_id, question_id, texto, session_id, created_at FROM answers WHERE id = $1
+SELECT id, user_id, question_id, texto, session_id, created_at FROM answers
+WHERE id = $1
 `
 
 func (q *Queries) GetAnswer(ctx context.Context, id int32) (Answers, error) {
@@ -75,7 +77,10 @@ func (q *Queries) GetAnswer(ctx context.Context, id int32) (Answers, error) {
 }
 
 const listAnswers = `-- name: ListAnswers :many
-SELECT id, user_id, question_id, texto, session_id, created_at FROM answers ORDER BY id LIMIT $1 OFFSET $2
+SELECT id, user_id, question_id, texto, session_id, created_at FROM answers
+ORDER BY id
+LIMIT $1
+OFFSET $2
 `
 
 type ListAnswersParams struct {
@@ -114,7 +119,10 @@ func (q *Queries) ListAnswers(ctx context.Context, arg ListAnswersParams) ([]Ans
 }
 
 const updateAnswer = `-- name: UpdateAnswer :exec
-UPDATE answers SET texto = $2 WHERE id = $1 RETURNING id, user_id, question_id, texto, session_id, created_at
+UPDATE answers
+SET texto = $2
+WHERE id = $1
+RETURNING id, user_id, question_id, texto, session_id, created_at
 `
 
 type UpdateAnswerParams struct {

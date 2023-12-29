@@ -10,7 +10,12 @@ import (
 )
 
 const createQuestion = `-- name: CreateQuestion :one
-INSERT INTO questions (texto) VALUES ($1) RETURNING id, texto, created_at
+INSERT INTO questions (
+    texto
+) VALUES (
+    $1
+)
+RETURNING id, texto, created_at
 `
 
 func (q *Queries) CreateQuestion(ctx context.Context, texto string) (Questions, error) {
@@ -21,7 +26,8 @@ func (q *Queries) CreateQuestion(ctx context.Context, texto string) (Questions, 
 }
 
 const deleteQuestion = `-- name: DeleteQuestion :exec
-DELETE FROM questions WHERE id = $1
+DELETE FROM questions
+WHERE id = $1
 `
 
 func (q *Queries) DeleteQuestion(ctx context.Context, id int32) error {
@@ -30,7 +36,8 @@ func (q *Queries) DeleteQuestion(ctx context.Context, id int32) error {
 }
 
 const getQuestion = `-- name: GetQuestion :one
-SELECT id, texto, created_at FROM questions WHERE id = $1
+SELECT id, texto, created_at FROM questions
+WHERE id = $1
 `
 
 func (q *Queries) GetQuestion(ctx context.Context, id int32) (Questions, error) {
@@ -41,7 +48,10 @@ func (q *Queries) GetQuestion(ctx context.Context, id int32) (Questions, error) 
 }
 
 const listQuestions = `-- name: ListQuestions :many
-SELECT id, texto, created_at FROM questions ORDER BY id LIMIT $1 OFFSET $2
+SELECT id, texto, created_at FROM questions
+ORDER BY id
+LIMIT $1
+OFFSET $2
 `
 
 type ListQuestionsParams struct {
@@ -73,7 +83,10 @@ func (q *Queries) ListQuestions(ctx context.Context, arg ListQuestionsParams) ([
 }
 
 const updateQuestion = `-- name: UpdateQuestion :exec
-UPDATE questions SET texto = $2 WHERE id = $1 RETURNING id, texto, created_at
+UPDATE questions
+SET texto = $2
+WHERE id = $1
+RETURNING id, texto, created_at
 `
 
 type UpdateQuestionParams struct {

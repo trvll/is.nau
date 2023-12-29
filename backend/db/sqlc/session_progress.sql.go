@@ -11,8 +11,16 @@ import (
 )
 
 const createSessionProgress = `-- name: CreateSessionProgress :one
-INSERT INTO session_progress (session_id, question_id, is_answered, answered_at) 
-VALUES ($1, $2, $3, $4) RETURNING id, session_id, question_id, is_answered, answered_at
+INSERT INTO session_progress (
+    session_id,
+    question_id,
+    is_answered,
+    answered_at
+)
+VALUES (
+    $1, $2, $3, $4
+)
+RETURNING id, session_id, question_id, is_answered, answered_at
 `
 
 type CreateSessionProgressParams struct {
@@ -41,7 +49,8 @@ func (q *Queries) CreateSessionProgress(ctx context.Context, arg CreateSessionPr
 }
 
 const deleteSessionProgress = `-- name: DeleteSessionProgress :exec
-DELETE FROM session_progress WHERE id = $1
+DELETE FROM session_progress
+WHERE id = $1
 `
 
 func (q *Queries) DeleteSessionProgress(ctx context.Context, id int32) error {
@@ -50,7 +59,8 @@ func (q *Queries) DeleteSessionProgress(ctx context.Context, id int32) error {
 }
 
 const getSessionProgress = `-- name: GetSessionProgress :one
-SELECT id, session_id, question_id, is_answered, answered_at FROM session_progress WHERE id = $1
+SELECT id, session_id, question_id, is_answered, answered_at FROM session_progress
+WHERE id = $1
 `
 
 func (q *Queries) GetSessionProgress(ctx context.Context, id int32) (SessionProgress, error) {
@@ -67,7 +77,10 @@ func (q *Queries) GetSessionProgress(ctx context.Context, id int32) (SessionProg
 }
 
 const listSessionProgress = `-- name: ListSessionProgress :many
-SELECT id, session_id, question_id, is_answered, answered_at FROM session_progress ORDER BY id LIMIT $1 OFFSET $2
+SELECT id, session_id, question_id, is_answered, answered_at FROM session_progress
+ORDER BY id
+LIMIT $1
+OFFSET $2
 `
 
 type ListSessionProgressParams struct {
@@ -105,8 +118,10 @@ func (q *Queries) ListSessionProgress(ctx context.Context, arg ListSessionProgre
 }
 
 const updateSessionProgress = `-- name: UpdateSessionProgress :exec
-UPDATE session_progress SET is_answered = $2, answered_at = $3 
-WHERE id = $1 RETURNING id, session_id, question_id, is_answered, answered_at
+UPDATE session_progress
+SET is_answered = $2, answered_at = $3
+WHERE id = $1
+RETURNING id, session_id, question_id, is_answered, answered_at
 `
 
 type UpdateSessionProgressParams struct {

@@ -11,7 +11,14 @@ import (
 )
 
 const createSession = `-- name: CreateSession :one
-INSERT INTO sessions (user_id, current_question_id) VALUES ($1, $2) RETURNING id, user_id, current_question_id, started_at, completed_at
+INSERT INTO sessions (
+    user_id,
+    current_question_id
+)
+VALUES (
+    $1, $2
+)
+RETURNING id, user_id, current_question_id, started_at, completed_at
 `
 
 type CreateSessionParams struct {
@@ -33,7 +40,8 @@ func (q *Queries) CreateSession(ctx context.Context, arg CreateSessionParams) (S
 }
 
 const deleteSession = `-- name: DeleteSession :exec
-DELETE FROM sessions WHERE id = $1
+DELETE FROM sessions
+WHERE id = $1
 `
 
 func (q *Queries) DeleteSession(ctx context.Context, id int32) error {
@@ -42,7 +50,8 @@ func (q *Queries) DeleteSession(ctx context.Context, id int32) error {
 }
 
 const getSession = `-- name: GetSession :one
-SELECT id, user_id, current_question_id, started_at, completed_at FROM sessions WHERE id = $1
+SELECT id, user_id, current_question_id, started_at, completed_at FROM sessions
+WHERE id = $1
 `
 
 func (q *Queries) GetSession(ctx context.Context, id int32) (Sessions, error) {
@@ -59,7 +68,10 @@ func (q *Queries) GetSession(ctx context.Context, id int32) (Sessions, error) {
 }
 
 const listSessions = `-- name: ListSessions :many
-SELECT id, user_id, current_question_id, started_at, completed_at FROM sessions ORDER BY id LIMIT $1 OFFSET $2
+SELECT id, user_id, current_question_id, started_at, completed_at FROM sessions
+ORDER BY id
+LIMIT $1
+OFFSET $2
 `
 
 type ListSessionsParams struct {
@@ -97,7 +109,10 @@ func (q *Queries) ListSessions(ctx context.Context, arg ListSessionsParams) ([]S
 }
 
 const updateSession = `-- name: UpdateSession :exec
-UPDATE sessions SET current_question_id = $2 WHERE id = $1 RETURNING id, user_id, current_question_id, started_at, completed_at
+UPDATE sessions
+SET current_question_id = $2
+WHERE id = $1
+RETURNING id, user_id, current_question_id, started_at, completed_at
 `
 
 type UpdateSessionParams struct {

@@ -10,13 +10,21 @@ INSERT INTO answers (
 RETURNING *;
 
 -- name: GetAnswer :one
-SELECT * FROM answers WHERE id = $1;
+SELECT * FROM answers
+WHERE id = $1;
 
 -- name: ListAnswers :many
-SELECT * FROM answers ORDER BY id LIMIT $1 OFFSET $2;
+SELECT * FROM answers
+ORDER BY id
+LIMIT $1
+OFFSET $2;
 
 -- name: UpdateAnswer :exec
-UPDATE answers SET texto = $2 WHERE id = $1 RETURNING *;
+UPDATE answers
+SET texto = $2
+WHERE id = $1
+RETURNING *;
 
 -- name: DeleteAnswer :exec
-DELETE FROM answers WHERE id = $1;
+DELETE FROM answers
+WHERE id = $1;
